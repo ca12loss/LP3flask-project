@@ -27,6 +27,7 @@ def produtos():
 def produto(nome):
     for produto in lista_produtos:
         if produto["nome"].lower() == nome.lower():
-            return f"Nome: {produto['nome']}, {produto['descricao']}"
-        
+            return render_template("produto.html",produto=produto)
+            #f"Nome: {produto['nome']}, {produto['descricao']}"
+            
     return "Produto não encontrado"

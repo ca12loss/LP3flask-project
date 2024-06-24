@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+from validate_docbr import CPF
 
 lista_produtos = [
         {"nome": "Coca-cola", "descricao": "Bom", "preco":10.30,"imagem":"https://images.tcdn.com.br/img/img_prod/858764/refrigerante_coca_cola_lata_350ml_c_12_359_1_20201021152315.jpg"} ,
@@ -46,4 +47,24 @@ def salvar_produto():
 
     return redirect(url_for("produtos"))
 
+@app.route("/gerarcpf")
+def gerar_cpf():
+    cpf = CPF()
+    new_cpf = cpf.generate()
+    masked_cpf = cpf.mask(new_cpf)
+    return render_template('cadastrar-produto.html', show_cpf=masked_cpf)
+
+@app.route("/validarcpf", methods=['POST'])
+def validar_cpf():
+    cpf_validate = CPF
+    cpf = request.form['cpf'] 
+    
+    if cpf_validate:
+        return redirect(url_for())
+    else:
+        return redirect(url_for())
+
+
+
 app.run(port=5001)
+

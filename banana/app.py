@@ -52,7 +52,8 @@ def gerar_cpf():
     cpf = CPF()
     new_cpf = cpf.generate()
     masked_cpf = cpf.mask(new_cpf)
-    return render_template('cadastrar-produto.html', show_cpf=masked_cpf)
+    return render_template('gerar-cpf.html', show_cpf=masked_cpf)
+
 
 @app.route("/validarcpf", methods=['POST'])
 def validar_cpf():

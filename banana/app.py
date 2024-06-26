@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from validate_docbr import CPF
+from validate_docbr import CPF, CNPJ
 
 lista_produtos = [
         {"nome": "Coca-cola", "descricao": "Bom", "preco":10.30,"imagem":"https://images.tcdn.com.br/img/img_prod/858764/refrigerante_coca_cola_lata_350ml_c_12_359_1_20201021152315.jpg"} ,
@@ -51,19 +51,41 @@ def salvar_produto():
 def gerar_cpf():
     cpf = CPF()
     new_cpf = cpf.generate()
-    masked_cpf = cpf.mask(new_cpf)
-    return render_template('gerar-cpf.html', show_cpf=masked_cpf)
+    return render_template('gerar-cpf.html', show_cpf=new_cpf)
 
+@app.route("/validar-cpf")
+def validar_cpf_form():
+    return render_template('validar-cpf.html')
 
 @app.route("/validarcpf", methods=['POST'])
 def validar_cpf():
-    cpf_validate = CPF
-    cpf = request.form['cpf'] 
-    
-    if cpf_validate:
-        return redirect(url_for())
+    cpf_validate = request.form['cpf']
+    cpf = CPF()
+    if cpf.validate(cpf_validate):
+        result = {"status":"CPF Válido","info":"cpf_validate"}
     else:
-        return redirect(url_for())
+        result = {"status":"CPF Inválido","info":cpf_validate}
+    return render_template('validar-result.html',result=result)
+
+@app.route("/gerarcnpj")
+def gerar_cnpj():
+    cnpj=CNPJ()
+    new_cnpj=cnpj.generate()
+    return render_template('gerar-cnpj.html', show_cnpj=new_cnpj)
+
+@app.route("/validar-cnpj")
+def cnpj_form():
+    return render_template('validar-cnpj.html')
+
+@app.route("/validarcnpj", methods=['POST'])
+def validar_cnpj():
+    cnpj_validate = request.form['cnpj']
+    cnpj = CNPJ()
+    if cnpj.validate(cnpj_validate):
+        result = {"status":"CNPJ Válido","info":cnpj_validate}
+    else:
+        result = {"status":"CNPJ Inválido","info":cnpj_validate}
+    return render_template('validar-result.html',result=result)
 
 
 

@@ -85,7 +85,7 @@ def validar_cpf():
     cpf_validate = request.form['cpf']
     cpf = CPF()
     if cpf.validate(cpf_validate):
-        result = {"status":"CPF Válido","info":"cpf_validate"}
+        result = {"status":"CPF Válido","info":cpf_validate}
     else:
         result = {"status":"CPF Inválido","info":cpf_validate}
     return render_template('validar-result.html',result=result)
